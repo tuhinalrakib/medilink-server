@@ -40,7 +40,7 @@ router.post("/register/patient", async (req, res) => {
 // POST /auth/register/doctor
 router.post("/register/doctor", async (req, res) => {
   try {
-    const { name, email, password, specialization, photo_url } = req.body;
+    const { name, email, password, specialization, photo_url, role } = req.body;
 
     // Check if doctor exists
     const existing = await req.doctorCollection.findOne({ email });
@@ -49,7 +49,7 @@ router.post("/register/doctor", async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newDoctor = { name, email, password: hashedPassword, specialization, photo_url };
+    const newDoctor = { name, email, password: hashedPassword, specialization, photo_url, role };
     const result = await req.doctorCollection.insertOne(newDoctor);
 
     res.status(201).json({ message: "Doctor registered", result });
@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "1h" }
     );
 
     res.status(200).json({ message: "Login successful", token, user });
