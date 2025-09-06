@@ -3,8 +3,8 @@ const express = require("express")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const port = process.env.PORT || 5000
 dotenv.config()
+const port = process.env.PORT || 5000
 
 // routes
 const authRoutes = require("./routes/authRoutes")
